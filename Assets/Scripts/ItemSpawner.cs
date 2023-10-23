@@ -7,6 +7,6 @@ public class ItemSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Instantiate(item, transform.position, Quaternion.identity);
+        Instantiate(item, transform);
     }
 }

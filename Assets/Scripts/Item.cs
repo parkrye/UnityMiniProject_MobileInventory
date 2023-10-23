@@ -1,18 +1,22 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class Item : MonoBehaviour
+public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
     [SerializeField] GameObject itemTile;
+    [SerializeField] int xSize, ySize, xPos, yPos;
     Color color;
-    int xSize, ySize;
-    bool rotated;
+    RectTransform rect;
 
     void Awake()
     {
         xSize = Random.Range(1, 5);
         ySize = Random.Range(1, 5);
+        xPos = 0;
+        yPos = 0;
         color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-        rotated = false;
+        rect = GetComponent<RectTransform>();
     }
 
     void Start()
@@ -21,28 +25,41 @@ public class Item : MonoBehaviour
         {
             for(int j = 0; j < ySize; j++)
             {
-                GameObject item = Instantiate(itemTile, Vector2.right * i + Vector2.up * j, Quaternion.identity);
-                item.GetComponent<SpriteRenderer>().color = color;
-                item.transform.SetParent(transform, false);
+                GameObject item = Instantiate(itemTile, transform);
+                item.GetComponent<Image>().color = color;
+                item.GetComponent<RectTransform>().anchoredPosition = new Vector2(i * 142, j * 142);
             }
         }
     }
 
-    public void Rotate()
-    {
-        rotated = !rotated;
-        transform.Rotate(Vector3.forward * 180f);
-    }
-
     public (int x, int y) GetPosition()
     {
-        if (rotated)
-        {
-            return (ySize, xSize);
-        }
-        else
-        {
-            return (xSize, ySize);
-        }
+        return (yPos, yPos);
+    }
+
+    public (int x, int y) GetSize()
+    {
+        return (xSize, ySize);
+    }
+
+    public void SetPosition(int _x, int _y)
+    {
+        xPos = _x;
+        yPos = _y;
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        rect.position = eventData.position;
     }
 }

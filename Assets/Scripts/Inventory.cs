@@ -17,12 +17,9 @@ public class Inventory : MonoBehaviour
 
     void Start()
     {
-        for(int i = -(inventorySize >> 1); i <= inventorySize >> 1; i++)
+        for(int i = 0; i < 100; i++)
         {
-            for (int j = -(inventorySize >> 1); j <= inventorySize >> 1; j++)
-            {
-                Instantiate(inventoryTile, Vector2.right * i + Vector2.up * (j + transform.position.y), Quaternion.identity, transform);
-            }
+            Instantiate(inventoryTile, transform);
         }
     }
 }
