@@ -2,11 +2,26 @@ using UnityEngine;
 
 public class ItemSpawner : MonoBehaviour
 {
-    [SerializeField] GameObject item;
+    [SerializeField] Item item;
+    bool spawnItem;
 
     // Start is called before the first frame update
     void Start()
     {
-        Instantiate(item, transform);
+        InstantiateItem();
+    }
+
+    public void InstantiateItem()
+    {
+        if (!spawnItem)
+        {
+            Instantiate(item, transform).Initialize(this);
+            spawnItem = true;
+        }
+    }
+
+    public void MoveItem()
+    {
+        spawnItem = false;
     }
 }

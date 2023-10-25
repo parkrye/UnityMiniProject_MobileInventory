@@ -8,6 +8,8 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDrag
     [SerializeField] int xSize, ySize, xPos, yPos;
     Color color;
     RectTransform rect;
+    ItemSpawner spawner;
+    bool moved;
 
     void Awake()
     {
@@ -17,6 +19,11 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDrag
         yPos = 0;
         color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
         rect = GetComponent<RectTransform>();
+    }
+
+    public void Initialize(ItemSpawner _itemSpawner)
+    {
+        spawner = _itemSpawner;
     }
 
     void Start()
@@ -50,12 +57,17 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDrag
 
     public void OnPointerDown(PointerEventData eventData)
     {
-
+        Cursor.Instance.TakeItem(this);
+        if(!moved)
+            spawner.MoveItem();
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-
+        Cursor.Instance.TakeItem(null);
+        if (!moved)
+            spawner.InstantiateItem();
+        moved = true;
     }
 
     public void OnDrag(PointerEventData eventData)

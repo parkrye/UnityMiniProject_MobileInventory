@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    [SerializeField] GameObject inventoryTile;
+    [SerializeField] InventoryTile inventoryTile;
 
     int inventorySize;
     bool[,] inventory;
@@ -19,7 +17,7 @@ public class Inventory : MonoBehaviour
     {
         for(int i = 0; i < 100; i++)
         {
-            Instantiate(inventoryTile, transform);
+            Instantiate(inventoryTile, transform).Initialize(i % 10, i / 10);
         }
     }
 }
